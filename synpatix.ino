@@ -27,13 +27,14 @@ const char index_html [] PROGMEM = R"teqsti(<!DOCTYPE html>
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        gap: 50px;
+        gap: 30px;
         background-image: url("https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/styles/full_width/public/thumbnails/image/fig1-dnb_united_states_sml.jpg?itok=8I3a7OC2");
+        overflow-y: auto;
     }
 
     #title_id {
         font-family: "Orbitron", sans-serif;
-        font-size: 104px;
+        font-size: 80px;
         flex-direction: row;
         display: flex;
         justify-content: space-around;
@@ -57,7 +58,7 @@ const char index_html [] PROGMEM = R"teqsti(<!DOCTYPE html>
 
     #flag_id {
         object-fit: cover;
-        height: 104px;
+        height: 80px;
         border-radius: 5px;
         transition: all 0.6s;
         cursor: pointer;
@@ -78,26 +79,29 @@ const char index_html [] PROGMEM = R"teqsti(<!DOCTYPE html>
     }
 
     #contact_id {
-        font-size: 62px;
+        font-size: 40px;
         border-radius: 20px;
         padding: 10px;
         cursor: pointer;
         transition: all 0.6s;
+        text-decoration: none;
+        color: inherit;
     }
 
     #contact_id:hover {
         box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.684);
         color: white;
-
     }
 
     main {
         flex: 1;
         width: 100%;
+        max-width: 1200px;
         border-radius: 20px;
         display: flex;
         flex-direction: column;
         gap: 20px;
+        padding-bottom: 30px;
     }
 
     #top_bar {
@@ -136,16 +140,20 @@ const char index_html [] PROGMEM = R"teqsti(<!DOCTYPE html>
     content {
         display: flex;
         flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
     }
 
     article {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        gap: 20px;
+        gap: 10px;
         align-items: center;
+        background: rgba(255, 255, 255, 0.8);
+        padding: 15px;
+        border-radius: 15px;
     }
 
     .sensor_id {
@@ -153,9 +161,10 @@ const char index_html [] PROGMEM = R"teqsti(<!DOCTYPE html>
         border-radius: 10px;
         padding: 10px;
         font-family: "Orbitron";
-        font-size: 20px;
+        font-size: 18px;
         transition: all 0.6s;
         background-color: azure;
+        text-align: center;
     }
 </style>
 
@@ -174,10 +183,9 @@ const char index_html [] PROGMEM = R"teqsti(<!DOCTYPE html>
                 <img src="https://scontent.ftbs6-2.fna.fbcdn.net/v/t39.30808-1/739917770_2272856050153431_7604518042153043871_n.jpg?stp=dst-jpg_tt6&cstp=mx1254x1254&ctp=s200x200&_nc_cat=106&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=H0aERnv97RMQ7kNvwFtb2fI&_nc_oc=AdrVYyTy3iCO1kgEfXFRplRUCkShuKpVCOsmECwpWAkyOYqWD3IAe_M-iRpqgtw0_dA&_nc_zt=24&_nc_ht=scontent.ftbs6-2.fna&_nc_gid=lqs8eOu8muKMHYJptRHhBQ&_nc_ss=7b2a8&oh=00_AQLF38B_iWH_-om-EC8iylkEsXJXHoCbgX5nO19BzDasvg&oe=6AA08F9F"
                     id="logo_id">
                 <span
-                    style="font-family: 'Orbitron'; font-size: 50px; user-select: none; cursor: pointer; color: black; border-radius: 50px; padding: 10px; border-style: solid; border-width: 10px; border-color: violet; transition: all 0.6s;">
+                    style="font-family: 'Orbitron'; font-size: 35px; user-select: none; cursor: pointer; color: black; border-radius: 50px; padding: 10px; border-style: solid; border-width: 5px; border-color: violet; transition: all 0.6s; text-align: center;">
                     Force sensitive resistor readings
                 </span>
-
             </div>
         </header>
         <content>
@@ -199,11 +207,19 @@ const char index_html [] PROGMEM = R"teqsti(<!DOCTYPE html>
             </article>
             <article>
                 <span class="sensor_id">Fifth Fsr Readings</span>
-                <span id="fifth_id" class="sensor_id">3215</span>
+                <span id="fifth_sensor_id" class="sensor_id">3215</span>
             </article>
             <article>
                 <span class="sensor_id">Sixth Fsr Readings</span>
                 <span id="sixth_sensor_id" class="sensor_id">1543</span>
+            </article>
+            <article>
+                <span class="sensor_id">Seventh Fsr Readings</span>
+                <span id="seventh_sensor_id" class="sensor_id">1000</span>
+            </article>
+            <article>
+                <span class="sensor_id">Eighth Fsr Readings</span>
+                <span id="eighth_sensor_id" class="sensor_id">2000</span>
             </article>
         </content>
     </main>
@@ -213,23 +229,26 @@ const char index_html [] PROGMEM = R"teqsti(<!DOCTYPE html>
             fetch('/data')
                 .then(response => response.json())
                 .then(data => {
-                    // data is a JSON array: [val1, val2, val3, val4, val5, val6]
                     document.getElementById('first_sensor_id').textContent = data[0];
                     document.getElementById('second_sensor_id').textContent = data[1];
                     document.getElementById('third_sensor_id').textContent = data[2];
                     document.getElementById('fourth_sensor_id').textContent = data[3];
-                    document.getElementById('fifth_id').textContent = data[4];
+                    document.getElementById('fifth_sensor_id').textContent = data[4];
                     document.getElementById('sixth_sensor_id').textContent = data[5];
+                    document.getElementById('seventh_sensor_id').textContent = data[6];
+                    document.getElementById('eighth_sensor_id').textContent = data[7];
                 })
                 .catch(error => console.error('Error fetching sensor data:', error));
         }
-        setInterval(updateSensors, 500);
+        setInterval(updateSensors, 100);
     </script>
 </body>
 </html>)teqsti";
+
 WebServer serveri(80);
-const char* saxeli = "Dachigiorga";
-const char* paroli = "giorgidachi123";
+const char* saxeli = "GITA_PREMIUM";
+const char* paroli = "Premium12.";
+
 void setup() {
   Serial.begin(115200);
   WiFi.mode(WIFI_STA);
@@ -241,29 +260,44 @@ void setup() {
   delay(1000);
   MDNS.begin("synaptix");
   Serial.println(WiFi.localIP());
+  
   serveri.on("/", HTTP_GET, [](){
     serveri.send(200, "text/html", index_html);
   });
+  
   serveri.on("/data", HTTP_GET, [](){
-    int fsrArray[6] = {
+    int fsrArray[8] = {
         analogRead(1),
         analogRead(2),
+        analogRead(3),
         analogRead(4),
         analogRead(5),
         analogRead(6),
         analogRead(7),
+        analogRead(8),
     };
     String jsonStr = "[";
-    for(int i = 0; i < 6; i++) {
+    for(int i = 0; i < 8; i++) {
       jsonStr += String(fsrArray[i]);
-      if(i < 5) jsonStr += ",";
+      if(i < 7) jsonStr += ",";
     }
     jsonStr += "]";
     serveri.send(200, "application/json", jsonStr);
   });
+  
   serveri.begin();
 }
-
+unsigned long lastSerialPrint = 0;
 void loop() {
-  serveri.handleClient();
+    serveri.handleClient();
+    if (millis() - lastSerialPrint > 1000) {
+        lastSerialPrint = millis();
+        for (int i = 1; i <= 8; i++) {
+            Serial.print("Pin ");
+            Serial.print(i);
+            Serial.print(": ");
+            Serial.println(analogRead(i));
+        }
+        Serial.println("-------------------");
+    }
 }
